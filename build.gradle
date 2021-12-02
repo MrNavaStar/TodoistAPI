@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://maven.restlet.com" }
+}
+
+dependencies {
+    implementation "org.restlet.jse:org.restlet:${project.restlet_version}"
+    implementation "org.restlet.jse:org.restlet.ext.jackson:${project.restlet_version}"
+
+    implementation "com.google.code.gson:gson:${project.gson_version}"
+}
