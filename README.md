@@ -17,6 +17,7 @@ dependencies {
   implementation 'com.github.MrNavaStar:TodoistAPI:v1.0'
 }
 ```
+\
 You can set up the API like so:
 
 ```java
