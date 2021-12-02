@@ -2,8 +2,16 @@
 A well built Todoist v8 API wrapper for Java
 
 # Usage
-Include the project using jitpack\
-\
+Include the project using jitpack:
+```gradle
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+  implementation 'com.github.MrNavaStar:TodoistAPI:v1.0'
+}
+```
 You can set up the API like so:
 
 ```java
