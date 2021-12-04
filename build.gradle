@@ -19,6 +19,7 @@ dependencies {
     implementation "com.google.code.gson:gson:${project.gson_version}"
 }
 
+/*
 task sourcesJar(type: Jar) {
     duplicatesStrategy = 'include'
 }
@@ -26,6 +27,7 @@ task sourcesJar(type: Jar) {
 java {
     withSourcesJar()
 }
+*/
 
 publishing {
     publications {
@@ -33,6 +35,8 @@ publishing {
             groupId = group
             artifactId = artifactId
             version = version
+
+            from components.java
         }
     }
 }
