@@ -20,6 +20,12 @@ dependencies {
     shadow "com.google.code.gson:gson:${project.gson_version}"
 }
 
+shadowJar {
+    manifest {
+        attributes 'Main-Class': 'mrnavastar.todoistapi.TodoistAPI'
+    }
+}
+
 publishing {
     publications {
         release(MavenPublication) {
