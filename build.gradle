@@ -19,15 +19,10 @@ dependencies {
     implementation "com.google.code.gson:gson:${project.gson_version}"
 }
 
-/*
-task sourcesJar(type: Jar) {
-    duplicatesStrategy = 'include'
+task fatJar(type: Jar) {
+    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
-
-java {
-    withSourcesJar()
-}
-*/
 
 publishing {
     publications {
