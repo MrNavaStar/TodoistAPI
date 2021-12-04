@@ -3,6 +3,8 @@ plugins {
     id 'maven-publish'
 }
 
+def targetJavaVersion = 17
+
 repositories {
     mavenCentral()
     maven { url "https://maven.restlet.com" }
@@ -15,29 +17,39 @@ dependencies {
     implementation "com.google.code.gson:gson:${project.gson_version}"
 }
 
-task sourcesJar(type: Jar) {
-    duplicatesStrategy = 'include'
+processResources {
+    inputs.property "version", project.version
+    filteringCharset "UTF-8"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        it.options.release = targetJavaVersion
+    }
 }
 
 java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+    archivesBaseName = project.name
     withSourcesJar()
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
 }
 
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            // add all the jars that should be included when publishing to maven
             artifact(sourcesJar) {
                 builtBy sourcesJar
             }
         }
-    }
-
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        // Add repositories to publish to here.
-        // Notice: This block does NOT have the same function as the block in the top level.
-        // The repositories here will be used for publishing your artifact, not for
-        // retrieving dependencies.
     }
 }
