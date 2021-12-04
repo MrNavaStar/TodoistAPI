@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-def targetJavaVersion = 17
+def targetJavaVersion = 16
 
 repositories {
     mavenCentral()
