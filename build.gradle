@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'maven-publish'
-    id 'com.github.johnrengelman.shadow' version '7.1.0'
 }
 
 version = project.version
@@ -14,16 +13,19 @@ repositories {
 }
 
 dependencies {
-    shadow "org.restlet.jse:org.restlet:${project.restlet_version}"
-    shadow "org.restlet.jse:org.restlet.ext.jackson:${project.restlet_version}"
+    implementation "org.restlet.jse:org.restlet:${project.restlet_version}"
+    implementation "org.restlet.jse:org.restlet.ext.jackson:${project.restlet_version}"
 
-    shadow "com.google.code.gson:gson:${project.gson_version}"
+    implementation "com.google.code.gson:gson:${project.gson_version}"
 }
 
-shadowJar {
+task fatJar(type: Jar) {
     manifest {
-        attributes 'Main-Class': 'mrnavastar.todoistapi.TodoistAPI'
+        attributes 'Main-Class': "mrnavastar.todoistapi.TodoistAPI"
     }
+    archiveBaseName = artifactId
+    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
 
 publishing {
