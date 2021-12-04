@@ -21,10 +21,9 @@ dependencies {
 
 task fatJar(type: Jar) {
     manifest {
-        attributes 'Main-Class': "mrnavastar.todoistapi.TodoistAPI"
+        attributes('Main-Class': "mrnavastar.todoistapi.TodoistAPI")
     }
-    archiveBaseName = artifactId
-    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
 
