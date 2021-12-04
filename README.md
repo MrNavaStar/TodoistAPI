@@ -38,9 +38,6 @@ for (Task task : project.getTasks()) {
     System.out.println(task.id());
 }
 
-Task task = new Task("title");
-task.setDescription("description");
-task.setPrioirity(3);
-
-project.addTask(task);
+Task task = project.createTask("title');
+task.setDescription("description").setPrioirity(3);
 ```
