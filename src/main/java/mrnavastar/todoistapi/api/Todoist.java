@@ -60,7 +60,7 @@ public class Todoist {
         for (JsonElement s : sectionData.getAsJsonArray()) {
             JsonObject data = s.getAsJsonObject();
             long id = data.get("id").getAsLong();
-            this.sections.put(id, new Section(data.get("name").getAsString(), id));
+            this.sections.put(id, new Section(data.get("name").getAsString(), id, data.get("project_id").getAsLong()));
         }
 
         for (JsonElement l : labelData.getAsJsonArray()) {
@@ -104,9 +104,9 @@ public class Todoist {
         return new ArrayList<>(this.sections.values());
     }
 
-    public Section getSection(String name) {
+    public Section getSection(long projectId, String name) {
         for (Section section : sections.values()) {
-            if (section.name().equals(name)) return section;
+            if (section.name().equals(name) && section.projectId() == projectId) return section;
         }
         return null;
     }

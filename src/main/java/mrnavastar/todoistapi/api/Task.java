@@ -56,7 +56,7 @@ public class Task {
     }
 
     public Task setSection(String section) {
-        setSection(this.todoist.getSection(section));
+        setSection(this.todoist.getSection(this.projectId(), section));
         return this;
     }
 
