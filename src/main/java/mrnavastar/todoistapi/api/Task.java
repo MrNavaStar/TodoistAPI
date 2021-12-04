@@ -5,17 +5,20 @@ import java.util.HashMap;
 
 public class Task {
 
+    private final Todoist todoist;
     private boolean isDirty = false;
     private final ArrayList<Label> labels = new ArrayList<>();
     private final HashMap<String, Object> properties;
 
-    public Task(String title) {
+    public Task(Todoist todoist, String title) {
+        this.todoist = todoist;
         this.properties = new HashMap<>();
         this.properties.put("content", title);
         this.properties.put("id", 0L);
     }
 
-    public Task(HashMap<String, Object> properties) {
+    public Task(Todoist todoist, HashMap<String, Object> properties) {
+        this.todoist = todoist;
         this.properties = properties;
     }
 
@@ -23,34 +26,50 @@ public class Task {
         return this.isDirty;
     }
 
-    public void addLabel(Label label) {
+    public Task addLabel(Label label) {
         this.isDirty = true;
         this.labels.add(label);
+        return this;
     }
 
-    public void addLabels(ArrayList<Label> labels) {
+    public Task addLabel(String label) {
+        addLabel(this.todoist.getLabel(label));
+        return this;
+    }
+
+    public Task addLabels(ArrayList<Label> labels) {
         this.isDirty = true;
         this.labels.addAll(labels);
+        return this;
     }
 
-    public void setProjectId(long id) {
+    public Task setProjectId(long id) {
         this.isDirty = true;
         this.properties.put("project_id", id);
+        return this;
     }
 
-    public void setSection(Section section) {
+    public Task setSection(Section section) {
         this.isDirty = true;
         this.properties.put("section_id", section.id());
+        return this;
     }
 
-    public void setDescription(String description) {
+    public Task setSection(String section) {
+        setSection(this.todoist.getSection(section));
+        return this;
+    }
+
+    public Task setDescription(String description) {
         this.isDirty = true;
         this.properties.put("description", description);
+        return this;
     }
 
-    public void setPriority(int priority) {
+    public Task setPriority(int priority) {
         this.isDirty = true;
         this.properties.put("priority", priority);
+        return this;
     }
 
     public HashMap<String, Object> getProperties() {

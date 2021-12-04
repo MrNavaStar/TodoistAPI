@@ -79,20 +79,13 @@ public class Todoist {
             properties.put("description", data.get("description").getAsString());
             properties.put("priority", data.get("priority").getAsInt());
 
-            this.tasks.put((Long) properties.get("id"), new Task(properties));
+            this.tasks.put((Long) properties.get("id"), new Task(this, properties));
         }
     }
 
     public void commit() {
-        projects.forEach((id, project) -> {
-            if (project.isDirty()) {
-                post("https://api.todoist.com/rest/v1/projects", project.getProperties());
-            }
-        });
-
         tasks.forEach((id, task) -> {
             if (task.isDirty()) {
-                System.out.println(task.id());
                 if (task.id() == 0) post("https://api.todoist.com/rest/v1/tasks", task.getProperties());
                 else post("https://api.todoist.com/rest/v1/tasks/" + task.id(), task.getProperties());
             }
@@ -130,8 +123,14 @@ public class Todoist {
         return new ArrayList<>(this.tasks.values());
     }
 
-    public void addTask(long projectId, Task task) {
+    public void addTaskToProject(long projectId, Task task) {
         task.setProjectId(projectId);
-        tasks.put(projectId, task);
+        tasks.put(task.id(), task);
+    }
+
+    public Task createTask(String title) {
+        Task task = new Task(this, title);
+        tasks.put(task.id(), task);
+        return task;
     }
 }

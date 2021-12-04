@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 public class Project {
 
-    private boolean isDirty = false;
     private final Todoist todoist;
     private final HashMap<String, Object> properties = new HashMap<>();
 
@@ -15,18 +14,20 @@ public class Project {
         this.properties.put("id", id);
     }
 
-    public boolean isDirty() {
-        return this.isDirty;
+    public void addTask(Task task) {
+        this.todoist.addTaskToProject(this.id(), task);
     }
 
-    public void addTask(Task task) {
-        todoist.addTask((Long) this.properties.get("id"), task);
+    public Task createTask(String title) {
+        Task task = new Task(this.todoist, title);
+        addTask(task);
+        return task;
     }
 
     public ArrayList<Task> getTasks() {
         long id = (Long) this.properties.get("id");
         ArrayList<Task> tasks = new ArrayList<>();
-        todoist.getTasks().forEach(task -> {
+        this.todoist.getTasks().forEach(task -> {
             if (task.projectId() == id) tasks.add(task);
         });
         return tasks;

@@ -13,3 +13,11 @@ dependencies {
 
     implementation "com.google.code.gson:gson:${project.gson_version}"
 }
+
+task sourcesJar(type: Jar) {
+    duplicatesStrategy = 'include'
+}
+
+java {
+    withSourcesJar()
+}
