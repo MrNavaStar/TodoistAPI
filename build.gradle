@@ -9,13 +9,9 @@ artifactId = project.artifactId
 
 repositories {
     mavenCentral()
-    maven { url "https://maven.restlet.com" }
 }
 
 dependencies {
-    implementation "org.restlet.jse:org.restlet:${project.restlet_version}"
-    implementation "org.restlet.jse:org.restlet.ext.jackson:${project.restlet_version}"
-
     implementation "com.google.code.gson:gson:${project.gson_version}"
 }
 
@@ -23,7 +19,7 @@ task fatJar(type: Jar) {
     manifest {
         attributes 'Main-Class': 'mrnavastar.todoistapi.TodoistAPI'
     }
-    archiveClassifier = "all"
+     archiveClassifier = "all"
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
